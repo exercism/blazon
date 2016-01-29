@@ -66,8 +66,9 @@ func main() {
 	}
 
 	t := &ticket{
-		Title: *title,
-		Body:  *body,
+		Title:  *title,
+		Body:   *body,
+		Labels: []string{}, // api doesn't handle null values here
 	}
 	t.addLabels(*labels)
 
