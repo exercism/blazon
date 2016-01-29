@@ -113,13 +113,22 @@ func main() {
 		}
 		defer res.Body.Close()
 
-		if !(res.StatusCode == http.StatusOK || res.StatusCode == http.StatusCreated) {
-			body, err := ioutil.ReadAll(res.Body)
-			if err != nil {
-				log.Printf("%s %s", track.Language, err)
-			} else {
-				log.Printf("%s %s", track.Language, string(body))
+		if res.StatusCode == http.StatusOK || res.StatusCode == http.StatusCreated {
+			var pld struct {
+				URL string `json:"html_url"`
 			}
+			if err := json.NewDecoder(res.Body).Decode(&pld); err != nil {
+				log.Printf("%s %s", track.Language, err)
+				continue
+			}
+
+			fmt.Println(pld.URL)
+			continue
+		}
+
+		body, err := ioutil.ReadAll(res.Body)
+		if err != nil {
+			log.Printf("%s %s\n%s", track.Language, err, body)
 		}
 	}
 }
