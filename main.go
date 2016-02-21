@@ -54,13 +54,14 @@ func (t *ticket) addLabels(s string) {
 var (
 	title    = flag.String("title", "", "The title of your issue.")
 	body     = flag.String("body", "", "The body of your issue.")
+	file     = flag.String("file", "", "The file containing the title and body of the issue (overrides -title and -body).")
 	labels   = flag.String("labels", "", "A comma-separated list of labels to add.")
 	exercise = flag.String("exercise", "", "The slug of the relevant exercise (optional). If no exercise is passed, the issue will be submitted to all active tracks.")
 )
 
 func main() {
 	flag.Parse()
-	if *title == "" || *body == "" {
+	if *file == "" && (*title == "" || *body == "") {
 		flag.Usage()
 		os.Exit(1)
 	}
@@ -70,6 +71,23 @@ func main() {
 		Body:   *body,
 		Labels: []string{}, // api doesn't handle null values here
 	}
+
+	if *file != "" {
+		b, err := ioutil.ReadFile(*file)
+		if err != nil {
+			log.Fatal(err)
+		}
+
+		i := bytes.Index(b, []byte("\n"))
+		if i == -1 {
+			log.Fatal("First line of file must contain the subject line of the issue.")
+		}
+
+		t.Title = string(b[:i])
+		t.Body = string(b[i+1:])
+	}
+	t.Body = strings.Trim(t.Body, "\n")
+
 	t.addLabels(*labels)
 
 	postBody, err := json.Marshal(t)
