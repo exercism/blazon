@@ -57,6 +57,7 @@ var (
 	file     = flag.String("file", "", "The file containing the title and body of the issue (overrides -title and -body).")
 	labels   = flag.String("labels", "", "A comma-separated list of labels to add.")
 	exercise = flag.String("exercise", "", "The slug of the relevant exercise (optional). If no exercise is passed, the issue will be submitted to all active tracks.")
+	yes      = flag.Bool("yes", false, "Actually submit issues. Without this flag, a dry run is performed.")
 )
 
 func main() {
@@ -108,8 +109,18 @@ func main() {
 		log.Fatal(err)
 	}
 
+	if !*yes {
+		fmt.Printf("Title:\n%s\n\nBody:\n%s\n\n", t.Title, t.Body)
+		fmt.Println("This issue would be submitted to the following tracks:")
+	}
+
 	for _, track := range pld.Tracks {
 		if !track.Active || !track.has(*exercise) {
+			continue
+		}
+
+		if !*yes {
+			fmt.Printf("- %s\n", track.ID)
 			continue
 		}
 
@@ -148,5 +159,9 @@ func main() {
 		if err != nil {
 			log.Printf("%s %s\n%s", track.Language, err, body)
 		}
+	}
+
+	if !*yes {
+		fmt.Println("\nTo submit, rerun the command with the -yes flag.")
 	}
 }
