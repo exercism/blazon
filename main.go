@@ -115,12 +115,17 @@ func main() {
 	}
 
 	for _, track := range pld.Tracks {
-		if !track.Active || !track.has(*exercise) {
+		if !track.has(*exercise) {
 			continue
 		}
 
 		if !*yes {
-			fmt.Printf("- %s\n", track.ID)
+			var status string
+			if !track.Active {
+				status = " (inactive)"
+			}
+
+			fmt.Printf("- %s%s\n", track.ID, status)
 			continue
 		}
 
