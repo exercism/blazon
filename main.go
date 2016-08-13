@@ -162,8 +162,10 @@ func main() {
 
 		body, err := ioutil.ReadAll(res.Body)
 		if err != nil {
-			log.Printf("%s %s\n%s", track.Language, err, body)
+			log.Printf("%s %s", track.Language, err)
+			continue
 		}
+		log.Printf("ERROR (%d) %s\n  %s", res.StatusCode, track.Language, body)
 	}
 
 	if !*yes {
