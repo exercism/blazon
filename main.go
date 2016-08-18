@@ -10,6 +10,7 @@ import (
 	"net/http"
 	"os"
 	"strings"
+	"time"
 )
 
 type track struct {
@@ -128,6 +129,7 @@ func main() {
 			fmt.Printf("- %s%s\n", track.ID, status)
 			continue
 		}
+		time.Sleep(500*time.Millisecond)
 
 		r := bytes.NewReader(postBody)
 
