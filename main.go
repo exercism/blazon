@@ -129,7 +129,7 @@ func main() {
 			fmt.Printf("- %s%s\n", track.ID, status)
 			continue
 		}
-		time.Sleep(500*time.Millisecond)
+		time.Sleep(1200 * time.Millisecond)
 
 		r := bytes.NewReader(postBody)
 
