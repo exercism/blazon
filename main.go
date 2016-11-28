@@ -13,6 +13,8 @@ import (
 	"time"
 )
 
+const versionInfo = "0.0.2"
+
 type track struct {
 	ID       string    `json:"id"`
 	Language string    `json:"language"`
@@ -59,10 +61,15 @@ var (
 	labels   = flag.String("labels", "", "A comma-separated list of labels to add.")
 	exercise = flag.String("exercise", "", "The slug of the relevant exercise (optional). If no exercise is passed, the issue will be submitted to all active tracks.")
 	yes      = flag.Bool("yes", false, "Actually submit issues. Without this flag, a dry run is performed.")
+	version  = flag.Bool("version", false, "Version of binary.")
 )
 
 func main() {
 	flag.Parse()
+	if *version {
+		fmt.Printf("Blazon version: %s\n", versionInfo)
+		os.Exit(0)
+	}
 	if *file == "" && (*title == "" || *body == "") {
 		flag.Usage()
 		os.Exit(1)
