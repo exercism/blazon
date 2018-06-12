@@ -8,7 +8,7 @@ If you have Go:
 
     go get -u github.com/exercism/blazon
 
-If not, grab the [most recent release](https://github.com/kytrinyx/blazon/releases/latest).
+If not, grab the [most recent release](https://github.com/exercism/blazon/releases/latest).
 
 ## Configuration
 
@@ -25,8 +25,8 @@ Run `blazon` to see the available flags.
 
 Before submitting the blazon issue, make sure that there is an issue that
 summarizes the problem/solution. If it doesn't already exist, then create one
-(it might fit into the https://github.com/exercism/x-common repository, or the
-https://github.com/exercism/todo repository).
+(it might fit into the [problem-specifications](https://github.com/exercism/problem-specifications) repository, or the
+[meta](https://github.com/exercism/meta) repository).
 
 Then include a link to the summary issue in the body of the text for the
 blazon issue.
